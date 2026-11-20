@@ -2,12 +2,18 @@ const http = require('node:http');
 const fs = require('node:fs');
 const path = require('node:path');
 const { loadProjects } = require('./config');
+const { findRunning } = require('./detect');
 
 const PAGE = path.join(__dirname, '..', 'public', 'index.html');
 
 function listProjects(configPath) {
-  return loadProjects(configPath).map((p) => {
-    const item = { name: p.name, state: 'Остановлен', port: null };
+  const projects = loadProjects(configPath);
+  const running = findRunning(projects.filter((p) => p.exists).map((p) => p.folder));
+  return projects.map((p) => {
+    const devProcess = running.get(p.folder);
+    const item = devProcess
+      ? { name: p.name, state: 'Работает', port: devProcess.port }
+      : { name: p.name, state: 'Остановлен', port: null };
     if (!p.exists) item.problem = `Папка не найдена: ${p.folder}`;
     return item;
   });

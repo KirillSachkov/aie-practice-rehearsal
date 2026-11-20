@@ -1,13 +1,10 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const fs = require('node:fs');
-const os = require('node:os');
 const path = require('node:path');
 const { startPanel } = require('../src/server');
+const { tmpDir } = require('./helpers');
 
-function tmpDir() {
-  return fs.mkdtempSync(path.join(os.tmpdir(), 'panel-test-'));
-}
 
 async function withPanel(configPath, fn) {
   const panel = await startPanel({ configPath, port: 0 });
