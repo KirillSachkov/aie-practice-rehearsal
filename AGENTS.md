@@ -10,6 +10,7 @@ Agent Kit is a harness for AI-assisted development: a shared part that serves an
   - `triage-labels.md`: the label vocabulary for issue states.
   - `domain.md`: where glossaries and ADRs live and how to read them.
   - `implementation.md`: the brief for implementing a ticket. Read it before any implementation.
+  - `testing.md`: testing rules and CI. Read it before writing or changing tests or the CI workflow.
 - Glossary locations: `GLOSSARY-MAP.md`.
 
 ## Merging

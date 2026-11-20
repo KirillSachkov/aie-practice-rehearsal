@@ -11,7 +11,7 @@ A local web page that lists the owner's dev projects and stops running ones. Ter
 
 ## Test
 
-`npm test` from this folder. The tests start real throwaway Node servers, so they need `lsof` (macOS and Linux). They cover the HTTP interface of the panel.
+`npm test` from this folder (Node 24). The tests start real throwaway Node servers, so they need `lsof` (macOS and Linux). They cover the HTTP interface of the panel; `test/e2e-npm-dev.test.js` starts the real panel and a project with `npm run dev` and stops it. CI runs the same command (`.github/workflows/test.yml`).
 
 ## Check the panel
 
