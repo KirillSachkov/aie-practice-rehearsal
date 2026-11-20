@@ -7,7 +7,10 @@ function loadProjects(configPath) {
   try {
     raw = fs.readFileSync(configPath, 'utf8');
   } catch (e) {
-    throw new Error(`Не найден файл конфигурации: ${configPath}. Создайте его: {"projects": ["/путь/к/проекту"]}`);
+    if (e.code === 'ENOENT') {
+      throw new Error(`Не найден файл конфигурации: ${configPath}. Создайте его: {"projects": ["/путь/к/проекту"]}`);
+    }
+    throw new Error(`Файл конфигурации ${configPath} не открывается: ${e.code}`);
   }
   let parsed;
   try {

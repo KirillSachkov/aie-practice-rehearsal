@@ -73,3 +73,14 @@ test('serves the page with a refresh button', async () => {
     assert.match(await res.text(), /Обновить/);
   });
 });
+
+test('the list answers a request with a query string', async () => {
+  const dir = tmpDir();
+  const configPath = path.join(dir, 'projects.json');
+  fs.writeFileSync(configPath, JSON.stringify({ projects: [] }));
+
+  await withPanel(configPath, async (base) => {
+    const res = await fetch(`${base}/api/projects?t=1`);
+    assert.strictEqual(res.status, 200);
+  });
+});
