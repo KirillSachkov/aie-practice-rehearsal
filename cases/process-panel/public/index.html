@@ -7,43 +7,77 @@
     body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
     li { margin: .5rem 0; }
     .state { font-weight: 600; }
-    .problem, #error { color: #b00020; }
+    .problem, #error, #stop-error { color: #b00020; }
   </style>
 </head>
 <body>
   <h1>Панель процессов</h1>
   <button id="refresh">Обновить</button>
   <p id="error"></p>
+  <p id="stop-error"></p>
   <ul id="projects"></ul>
   <script>
+    const REFRESH_MS = 5000;
+    let inFlight = false;
+    let rerun = false;
+    let timer = null;
+
     async function load() {
+      // One request at a time: a call during a request runs again right after it.
+      if (inFlight) { rerun = true; return; }
+      inFlight = true;
+      clearTimeout(timer);
+      try {
+        do {
+          rerun = false;
+          await fetchAndRender();
+        } while (rerun);
+      } finally {
+        inFlight = false;
+        timer = setTimeout(load, REFRESH_MS);
+      }
+    }
+
+    async function fetchAndRender() {
       const list = document.getElementById('projects');
       const err = document.getElementById('error');
-      list.innerHTML = '';
-      err.textContent = '';
-      const res = await fetch('/api/projects');
-      const body = await res.json();
-      if (!res.ok) { err.textContent = body.error; return; }
-      for (const p of body.projects) {
-        const li = document.createElement('li');
-        const port = p.port ? ` (порт ${p.port})` : '';
-        li.innerHTML = `<b></b> <span class="state"></span> <span class="problem"></span>`;
-        li.querySelector('b').textContent = p.name;
-        li.querySelector('.state').textContent = p.state + port;
-        li.querySelector('.problem').textContent = p.problem || '';
-        if (p.state === 'Работает') {
-          const stop = document.createElement('button');
-          stop.textContent = 'Остановить';
-          stop.addEventListener('click', () => stopProject(p.name));
-          li.appendChild(stop);
-        }
-        list.appendChild(li);
+      try {
+        const res = await fetch('/api/projects');
+        const body = await res.json();
+        if (!res.ok) { err.textContent = body.error; return; }
+        const items = body.projects.map((p) => {
+          const li = document.createElement('li');
+          const port = p.port ? ` (порт ${p.port})` : '';
+          li.innerHTML = `<b></b> <span class="state"></span> <span class="problem"></span>`;
+          li.querySelector('b').textContent = p.name;
+          li.querySelector('.state').textContent = p.state + port;
+          li.querySelector('.problem').textContent = p.problem || '';
+          if (p.state === 'Работает') {
+            const stop = document.createElement('button');
+            stop.textContent = 'Остановить';
+            stop.addEventListener('click', () => stopProject(p.name));
+            li.appendChild(stop);
+          }
+          return li;
+        });
+        list.replaceChildren(...items);
+        err.textContent = '';
+      } catch (e) {
+        err.textContent = 'Сервер не отвечает';
       }
     }
     async function stopProject(name) {
-      const res = await fetch(`/api/projects/${encodeURIComponent(name)}/stop`, { method: 'POST' });
-      if (!res.ok) document.getElementById('error').textContent = (await res.json()).error;
-      else await load();
+      // The stop error has its own line, so the auto-refresh does not wipe it.
+      const stopErr = document.getElementById('stop-error');
+      stopErr.textContent = '';
+      try {
+        const res = await fetch(`/api/projects/${encodeURIComponent(name)}/stop`, { method: 'POST' });
+        if (!res.ok) { stopErr.textContent = (await res.json()).error; return; }
+      } catch (e) {
+        stopErr.textContent = 'Сервер не отвечает';
+        return;
+      }
+      await load();
     }
     document.getElementById('refresh').addEventListener('click', load);
     load();
