@@ -7,13 +7,14 @@
     body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
     li { margin: .5rem 0; }
     .state { font-weight: 600; }
-    .problem, #error { color: #b00020; }
+    .problem, #error, #stop-error { color: #b00020; }
   </style>
 </head>
 <body>
   <h1>Панель процессов</h1>
   <button id="refresh">Обновить</button>
   <p id="error"></p>
+  <p id="stop-error"></p>
   <ul id="projects"></ul>
   <script>
     const REFRESH_MS = 5000;
@@ -66,9 +67,17 @@
       }
     }
     async function stopProject(name) {
-      const res = await fetch(`/api/projects/${encodeURIComponent(name)}/stop`, { method: 'POST' });
-      if (!res.ok) document.getElementById('error').textContent = (await res.json()).error;
-      else await load();
+      // The stop error has its own line, so the auto-refresh does not wipe it.
+      const stopErr = document.getElementById('stop-error');
+      stopErr.textContent = '';
+      try {
+        const res = await fetch(`/api/projects/${encodeURIComponent(name)}/stop`, { method: 'POST' });
+        if (!res.ok) { stopErr.textContent = (await res.json()).error; return; }
+      } catch (e) {
+        stopErr.textContent = 'Сервер не отвечает';
+        return;
+      }
+      await load();
     }
     document.getElementById('refresh').addEventListener('click', load);
     load();
