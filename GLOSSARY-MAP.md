@@ -1,5 +1,9 @@
-# Glossary map
+# Glossary Map
 
-Each case keeps its own glossary in its folder, because the same word can mean different things in different cases.
+## Contexts
 
-- `cases/process-panel/GLOSSARY.md`: the process panel. The file does not exist yet; it appears when the panel is first discussed.
+- [Process Panel](./cases/process-panel/GLOSSARY.md): a local page that shows running dev projects and stops forgotten ones
+
+## Relationships
+
+None yet: the first case is the only context.
