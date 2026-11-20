@@ -31,8 +31,19 @@
         li.querySelector('b').textContent = p.name;
         li.querySelector('.state').textContent = p.state + port;
         li.querySelector('.problem').textContent = p.problem || '';
+        if (p.state === 'Работает') {
+          const stop = document.createElement('button');
+          stop.textContent = 'Остановить';
+          stop.addEventListener('click', () => stopProject(p.name));
+          li.appendChild(stop);
+        }
         list.appendChild(li);
       }
+    }
+    async function stopProject(name) {
+      const res = await fetch(`/api/projects/${encodeURIComponent(name)}/stop`, { method: 'POST' });
+      if (!res.ok) document.getElementById('error').textContent = (await res.json()).error;
+      else await load();
     }
     document.getElementById('refresh').addEventListener('click', load);
     load();
