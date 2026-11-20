@@ -1,0 +1,10 @@
+{
+  "name": "process-panel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local panel that lists dev projects and stops forgotten ones",
+  "scripts": {
+    "start": "node src/main.js",
+    "test": "node --test test/*.test.js"
+  }
+}

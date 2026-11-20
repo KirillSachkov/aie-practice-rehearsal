@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Панель процессов</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 40rem; }
+    li { margin: .5rem 0; }
+    .state { font-weight: 600; }
+    .problem, #error { color: #b00020; }
+  </style>
+</head>
+<body>
+  <h1>Панель процессов</h1>
+  <button id="refresh">Обновить</button>
+  <p id="error"></p>
+  <ul id="projects"></ul>
+  <script>
+    async function load() {
+      const list = document.getElementById('projects');
+      const err = document.getElementById('error');
+      list.innerHTML = '';
+      err.textContent = '';
+      const res = await fetch('/api/projects');
+      const body = await res.json();
+      if (!res.ok) { err.textContent = body.error; return; }
+      for (const p of body.projects) {
+        const li = document.createElement('li');
+        const port = p.port ? ` (порт ${p.port})` : '';
+        li.innerHTML = `<b></b> <span class="state"></span> <span class="problem"></span>`;
+        li.querySelector('b').textContent = p.name;
+        li.querySelector('.state').textContent = p.state + port;
+        li.querySelector('.problem').textContent = p.problem || '';
+        list.appendChild(li);
+      }
+    }
+    document.getElementById('refresh').addEventListener('click', load);
+    load();
+  </script>
+</body>
+</html>
