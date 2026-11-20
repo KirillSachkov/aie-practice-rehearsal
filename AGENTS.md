@@ -9,7 +9,12 @@ Agent Kit is a harness for AI-assisted development: a shared part that serves an
   - `issue-tracker.md`: where tasks and specs live and the `gh` commands for them.
   - `triage-labels.md`: the label vocabulary for issue states.
   - `domain.md`: where glossaries and ADRs live and how to read them.
+  - `implementation.md`: the brief for implementing a ticket. Read it before any implementation.
 - Glossary locations: `GLOSSARY-MAP.md`.
+
+## Merging
+
+An agent merges a pull request only after the owner's explicit approval, written as a comment in that pull request. The merge command asks the owner for confirmation (`.claude/settings.json`).
 
 ## Cases (`cases/`)
 
