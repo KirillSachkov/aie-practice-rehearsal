@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { loadProjects } = require('./config');
 const { findRunning } = require('./detect');
+const { stopProject } = require('./stop');
 
 const PAGE = path.join(__dirname, '..', 'public', 'index.html');
 
@@ -24,6 +25,15 @@ function sendJson(res, status, body) {
   res.end(JSON.stringify(body));
 }
 
+// Only Projects from the config can be stopped (ADR 0001).
+async function stopByName(configPath, name) {
+  const project = loadProjects(configPath).find((p) => p.name === name && p.exists);
+  if (!project) return { status: 404, body: { error: `Проект не найден в конфигурации: ${name}` } };
+  const result = await stopProject(project.folder);
+  if (result === 'stuck') return { status: 500, body: { error: `Процесс проекта ${name} не завершился за 3 секунды` } };
+  return { status: 200, body: { result } };
+}
+
 function handler(options) {
   return (req, res) => {
     const pathname = new URL(req.url, 'http://localhost').pathname;
@@ -33,6 +43,14 @@ function handler(options) {
       } catch (e) {
         sendJson(res, 500, { error: e.message });
       }
+      return;
+    }
+    const stopMatch = pathname.match(/^\/api\/projects\/([^/]+)\/stop$/);
+    if (req.method === 'POST' && stopMatch) {
+      stopByName(options.configPath, decodeURIComponent(stopMatch[1])).then(
+        ({ status, body }) => sendJson(res, status, body),
+        (e) => sendJson(res, 500, { error: e.message }),
+      );
       return;
     }
     if (req.method === 'GET' && pathname === '/') {
