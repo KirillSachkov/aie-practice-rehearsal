@@ -11,6 +11,10 @@ Apply to every case. Case-specific commands live in the case's `AGENTS.md`.
   - **End-to-end test**: the real program started the way the owner starts it, driven through its interface, for the main scenario of the spec.
   - **Unit tests**: only for pure logic with many edge cases (parsers).
 
+## Page behaviour
+
+The process panel has no browser test (a browser would be a dependency, ADR 0002). A change that only affects the page gets a manual check from the owner, written in the pull request; extract logic into a module and test it when the page logic grows beyond a few lines.
+
 ## Every test cleans up
 
 A test stops the processes it started, by PID or process group, and leaves no port open. Kills by process name are not allowed.
