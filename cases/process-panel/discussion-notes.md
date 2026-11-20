@@ -24,7 +24,12 @@ The owner runs several local projects with `npm run dev` and forgets some. Forgo
 - Terms: `GLOSSARY.md` of this case.
 - ADR 0001: the panel stops only listed projects.
 
+## Stack and launch (step 3)
+
+- Node.js, built-in `http`, one HTML page, no dependencies. ADR 0002 (with rejected options: FastAPI, Go, Electron/Tauri, Express).
+- Detection: `lsof` for listening ports and the process working folder; Stop: SIGTERM to the process group. No prototype: the agent and the owner saw no open fork (the owner uses macOS; `lsof` is built in).
+- Run: `npm start`, open `http://localhost:4000`. Written in `cases/process-panel/AGENTS.md`.
+
 ## Open for the next steps
 
-- Stack and how to run the panel.
-- How the panel detects "running" (to decide with the stack).
+- Specification and tickets: acceptance scenario and what version 1 does not do.

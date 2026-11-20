@@ -15,7 +15,7 @@ Agent Kit is a harness for AI-assisted development: a shared part that serves an
 
 Each case folder holds what applies to that case only: glossary, ADRs, code, tests.
 
-- `cases/process-panel/`: the current case, a panel that shows running processes and stops them. Work happens here now.
+- `cases/process-panel/`: the current case, a panel that shows running processes and stops them. Work happens here now. Before working in it, read `cases/process-panel/AGENTS.md` (run command, address, stack).
 
 ## Agent skills
 
