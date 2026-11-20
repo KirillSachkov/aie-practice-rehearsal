@@ -4,9 +4,24 @@ A local web page that lists the owner's dev projects and stops running ones. Ter
 
 ## Run
 
-- Start: `npm start` from this folder.
-- Open: `http://localhost:4000`.
-- Stop the panel: Ctrl+C in the terminal that runs it.
+1. Copy `projects.example.json` to `projects.json` (ignored by git) and list the absolute folders of your projects.
+2. Start: `npm start` from this folder.
+3. Open: `http://localhost:4000`.
+4. Stop the panel: Ctrl+C in the terminal that runs it.
+
+## Test
+
+`npm test` from this folder. The tests start real throwaway Node servers, so they need `lsof` (macOS and Linux). They cover the HTTP interface of the panel.
+
+## Check the panel
+
+Follow the acceptance scenario of the spec (Issue #1) on a real running project:
+
+1. Make a project folder with a `dev` script that starts a server, for example `/tmp/aie-rehearsal-demo`, and list it in `projects.json`.
+2. Run `npm run dev` in that folder and `npm start` in this one.
+3. Open `http://localhost:4000`: the project shows `Работает` and its port.
+4. Press «Остановить», then «Обновить»: the project shows `Остановлен` and its address no longer opens.
+5. Stop the processes you started, by their PIDs.
 
 ## Stack
 
