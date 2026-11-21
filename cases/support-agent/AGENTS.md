@@ -11,7 +11,8 @@ A first-line support assistant in the chat of a home internet and TV provider's 
 - `processes.md`: how the assistant conducts each scenario of the first version step by step: events, handoff rules, disputed cases with examples, open questions. Read it before any question about what the assistant says or does in a conversation.
 - `conversations.md`: conversations played by the owner against `processes.md`. Use them as examples of the expected tone and outcome.
 - `system-words.md`: how the words of the company's systems become the assistant's words, where the translation happens. Read it before writing what the assistant says about a contract status, an outage or a helpdesk ticket.
-- `docs/adr/`: decisions of the case (one context, translation at the border; queue, tickets and notices stay in company systems).
-- Map of open questions: GitHub Issue #14 (label `wayfinder:map`); its children are the questions. #15 «Ветки разговора по сценариям первой версии» and #16 «Слова помощника и слова систем» are closed; the unblocked one is #17. Use `wayfinder` to work the map, one ticket per session.
+- `modules.md`: the assistant's modules, who owns which data, contracts, polling of outages, failures and repeats. Read it before any question about data, integration or what happens when a system does not answer.
+- `docs/adr/`: decisions of the case (one context, translation at the border; queue, tickets and notices stay in company systems; one module per company system; outages are polled per address).
+- Map of open questions: GitHub Issue #14 (label `wayfinder:map`); its children are the questions. #15 «Ветки разговора по сценариям первой версии» and #16 «Слова помощника и слова систем», #17 «Как клиент узнаёт, что аварию устранили» and #18 «Модули, данные и интеграция» are closed; the unblocked one is #19. Use `wayfinder` to work the map, one ticket per session.
 
 The company's requirements and systems do not change. Where they are silent, the owner decides, as if the company had trusted the team.
