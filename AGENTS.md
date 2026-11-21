@@ -22,7 +22,8 @@ An agent merges a pull request only after the owner's explicit approval, written
 
 Each case folder holds what applies to that case only: glossary, ADRs, code, tests.
 
-- `cases/process-panel/`: the current case, a panel that shows running processes and stops them. Work happens here now. Before working in it, read `cases/process-panel/AGENTS.md` (run command, address, stack).
+- `cases/process-panel/`: a panel that shows running processes and stops them. Before working in it, read `cases/process-panel/AGENTS.md` (run command, address, stack).
+- `cases/support-agent/`: the current case, a first-line support assistant for a home internet and TV provider (design only). Work happens here now. Before working in it, read `cases/support-agent/AGENTS.md` (the company's requirements and systems).
 
 ## Agent skills
 
