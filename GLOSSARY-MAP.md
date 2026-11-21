@@ -7,4 +7,4 @@
 
 ## Relationships
 
-None yet: the cases are independent.
+- **Support agent ↔ company systems**: the systems of the company are outside the assistant's context; their words are translated into the assistant's words at the border (`cases/support-agent/system-words.md`).
