@@ -3,6 +3,7 @@
 ## Contexts
 
 - [Process Panel](./cases/process-panel/GLOSSARY.md): a local page that shows running dev projects and stops forgotten ones
+- [Помощник техподдержки](./cases/support-agent/GLOSSARY.md): первая линия поддержки провайдера в чате
 
 ## Relationships
 
