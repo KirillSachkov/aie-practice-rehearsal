@@ -45,7 +45,12 @@
       try {
         const res = await fetch('/api/projects');
         const body = await res.json();
-        if (!res.ok) { err.textContent = body.error; return; }
+        if (!res.ok) { err.textContent = body.error || 'Ошибка ответа сервера'; return; }
+        err.textContent = '';
+        // Redraw only on a change, and not while a button is being pressed,
+        // so a click under the cursor is not lost. The next refresh catches up.
+        const shown = JSON.stringify(body.projects);
+        if (shown === lastShown || list.querySelector(':active')) return;
         const items = body.projects.map((p) => {
           const li = document.createElement('li');
           const port = p.port ? ` (порт ${p.port})` : '';
@@ -61,10 +66,8 @@
           }
           return li;
         });
-        // Redraw only on a change, so a click under the cursor is not lost.
-        const shown = JSON.stringify(body.projects);
-        if (shown !== lastShown) { lastShown = shown; list.replaceChildren(...items); }
-        err.textContent = '';
+        lastShown = shown;
+        list.replaceChildren(...items);
       } catch (e) {
         err.textContent = 'Сервер не отвечает';
       }
