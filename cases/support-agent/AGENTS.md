@@ -8,6 +8,8 @@ A first-line support assistant in the chat of a home internet and TV provider's 
 - `company-systems.md`: the company's systems (chat login, billing, network, outages, technician visits, helpdesk, knowledge base, notifications): what each can read and do, and its limits. Read the part you need when a question touches a system, an integration or a failure.
 - `processes.md`: scenarios and branches by version, disputed cases, open questions. Read it when a question touches how the assistant behaves in a conversation.
 - `conversations.md`: played conversations and what had to be invented.
+- `language.md`: what the assistant takes ready-made, its one context, disputed words and the table translating company-system statuses into the assistant's words. Read it before naming anything that comes from a system.
+- `docs/adr/`: decisions of this case.
 - `functionality.md`: all functionality of the assistant by theme, each item with the version it arrives in. Read it when a question touches what the assistant does.
 - `first-version.md`: the first version: the result, what is in, what is later. Read it when deciding what belongs to the first version.
 - `GLOSSARY.md`: the case vocabulary. Read it before naming anything.
