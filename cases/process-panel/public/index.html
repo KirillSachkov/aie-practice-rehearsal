@@ -21,6 +21,7 @@
     let inFlight = false;
     let rerun = false;
     let timer = null;
+    let lastShown = null;
 
     async function load() {
       // One request at a time: a call during a request runs again right after it.
@@ -60,7 +61,9 @@
           }
           return li;
         });
-        list.replaceChildren(...items);
+        // Redraw only on a change, so a click under the cursor is not lost.
+        const shown = JSON.stringify(body.projects);
+        if (shown !== lastShown) { lastShown = shown; list.replaceChildren(...items); }
         err.textContent = '';
       } catch (e) {
         err.textContent = 'Сервер не отвечает';
