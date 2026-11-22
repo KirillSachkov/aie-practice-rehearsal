@@ -12,6 +12,8 @@ A first-line support assistant in the chat of a home internet and TV provider's 
 - `modules.md`: the assistant's modules, who owns which data, how modules talk, a walk through the night-outage scenario. Read it before changing or naming a module.
 - `contracts.md`: contracts with the eight company systems, failure and repeat rules. Read it when a question touches an integration, a failure or a repeat.
 - `qualities.md`: the main qualities as scenarios with checks, one line for the others. Read it before changing behaviour that touches contracts of other people's data, cost or honesty.
+- `stages.md`: stages of the whole assistant, the acceptance conversation of each, short description of stages after the first. Read it before planning or starting any work.
+- `data-exchange.md`: what the modules of stage 1 pass to each other, failures and repeats.
 - `docs/adr/`: decisions of this case.
 - `functionality.md`: all functionality of the assistant by theme, each item with the version it arrives in. Read it when a question touches what the assistant does.
 - `first-version.md`: the first version: the result, what is in, what is later. Read it when deciding what belongs to the first version.
